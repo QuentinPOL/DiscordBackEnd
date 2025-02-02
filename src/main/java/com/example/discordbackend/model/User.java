@@ -2,6 +2,7 @@ package com.example.discordbackend.model;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "users")  // correspond à la table "users" dans la BDD
 public class User {
@@ -18,18 +19,44 @@ public class User {
     private String email;
 
     // On stocke ici le hash du mot de passe (pas le mot de passe en clair)
-    @Column(name = "password_hash", nullable = false, length = 255)
-    private String passwordHash;
+    @Column(name = "password_hash", nullable = false, length = 150)
+    private String password;
 
-    // Constructeur vide (obligatoire pour JPA)
+    @Column(name = "avatar", nullable = false, length = 3000)
+    private String avatar = "https://www.pngmart.com/files/22/User-Avatar-Profile-Download-PNG-Isolated-Image.png";
+
+    @Column(name = "description", nullable = true, length = 180)
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private Status status = Status.ONLINE; // Statut par défaut : En ligne
+
+
     public User() {
     }
 
-    // Constructeur A laisser
-    public User(String username, String email, String passwordHash) {
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    // Constructeur
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = password;
     }
 
     // Getters et setters
@@ -42,6 +69,6 @@ public class User {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getPasswordHash() { return passwordHash; }
-    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+    public String getPassword() { return password; }
+    public void setPassword(String passwordHash) { this.password = passwordHash; }
 }
